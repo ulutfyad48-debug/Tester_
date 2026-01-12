@@ -1,34 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haris Mobile Center - Your One-Stop Solution</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <title>Google Drive Data Retriever</title>
     <style>
-        /* ========================================
-           🔧 آسان تبدیلیاں یہاں کریں 
-        ======================================== */
-        :root {
-            /* 📝 بزنس کی معلومات */
-            --business-name: 'Haris Mobile Center';
-            --owner-name: 'Muhammad Rauf';
-            --phone-number: '+92 303 8383680';
-            
-            /* 🖼️ تصاویر کے لنکس */
-            --logo-image: 'https://lh3.googleusercontent.com/d/1FWVkT6bysHwLJPGdiuo3hYHmXYNJ5C21';
-            --location-image: 'https://lh3.googleusercontent.com/d/11lfEXIM5h4xqwqsOPOIsVJZ0OT5-94ad';
-            --owner-image: 'https://lh3.googleusercontent.com/d/1x2zOOeo7bePYy7brcVOpjnfpOuQyKmsE';
-            
-            /* 📍 لوکیشن */
-            --maps-link: 'https://goo.gl/maps/7k4MyFugPeizbVVe9';
-            
-            /* 🎨 رنگ */
-            --primary-color: #2563eb;
-            --secondary-color: #10b981;
-        }
-        /* ======================================== */
-        
         * {
             margin: 0;
             padding: 0;
@@ -36,480 +12,346 @@
         }
         
         body {
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            overflow-x: hidden;
-        }
-        
-        .urdu-text {
-            font-family: 'Noto Nastaliq Urdu', serif;
-            direction: rtl;
-            text-align: right;
-        }
-        
-        .hero {
-            position: relative;
-            height: 100vh;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23ffffff" opacity="0.05" width="1200" height="800"/></svg>');
-            opacity: 0.15;
-            z-index: 1;
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 2;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             padding: 20px;
-            max-width: 1200px;
-            animation: fadeInUp 1s ease;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .logo-section {
-            margin-bottom: 30px;
-        }
-        
-        .logo-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 5px solid white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            object-fit: cover;
-            background: white;
-        }
-        
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin: 20px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .tagline {
-            font-size: 1.5rem;
-            margin: 15px 0;
-            font-weight: 300;
-        }
-        
-        .cta-buttons {
-            margin-top: 30px;
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            font-weight: 600;
-        }
-        
-        .btn-primary {
-            background: white;
-            color: var(--primary-color);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-        
-        .btn-secondary:hover {
-            background: white;
-            color: var(--primary-color);
-        }
-        
-        .services {
-            padding: 80px 20px;
-            background: #f8fafc;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-        
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 50px;
-        }
-        
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .service-card {
+        .header {
             background: white;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
-        
-        .service-icon {
-            font-size: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             margin-bottom: 20px;
         }
         
-        .service-card h3 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            font-size: 1.4rem;
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
         }
         
-        .service-card p {
+        .subtitle {
             color: #666;
-            line-height: 1.8;
+            margin-bottom: 20px;
         }
         
-        .urdu-section {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        #apiKey {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            direction: ltr;
+        }
+        
+        #apiKey:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button {
+            padding: 12px 25px;
+            background: #667eea;
             color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
         }
         
-        .urdu-content {
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
+        button:hover {
+            background: #5568d3;
         }
         
-        .urdu-title {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
         }
         
-        .urdu-description {
-            font-size: 1.3rem;
-            line-height: 2.2;
-            text-align: justify;
-            background: rgba(255,255,255,0.1);
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 12px;
+            border-radius: 8px;
+            color: #856404;
+            font-size: 13px;
+        }
+        
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .files-container {
+            background: white;
             padding: 30px;
             border-radius: 15px;
-            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
         }
         
-        .contact {
-            padding: 80px 20px;
-            background: white;
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
         }
         
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 40px;
+        .file-item:hover {
+            background: #f8f9fa;
+            border-color: #667eea;
         }
         
-        .contact-card {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            padding: 40px;
-            border-radius: 15px;
-            color: white;
+        .file-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+        
+        .file-details h3 {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .file-meta {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .download-btn {
+            background: #28a745;
+            padding: 10px 20px;
+            font-size: 13px;
+        }
+        
+        .download-btn:hover {
+            background: #218838;
+        }
+        
+        .loading {
             text-align: center;
-            transition: transform 0.3s ease;
+            padding: 20px;
+            color: #667eea;
+            display: none;
         }
         
-        .contact-card:hover {
-            transform: scale(1.05);
+        .load-more {
+            width: 100%;
+            margin-top: 15px;
+            background: #764ba2;
         }
         
-        .contact-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-        
-        .contact-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-        
-        .contact-card a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.2rem;
-            word-break: break-all;
-        }
-        
-        .contact-image {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid white;
-            object-fit: cover;
-            margin: 20px auto;
-            display: block;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-        
-        footer {
-            background: #1e293b;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-        }
-        
-        footer p {
-            margin: 10px 0;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .tagline {
-                font-size: 1.2rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .urdu-title {
-                font-size: 2rem;
-            }
-            
-            .urdu-description {
-                font-size: 1.1rem;
-            }
-        }
-        
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-        
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .load-more:hover {
+            background: #5d3a7f;
         }
     </style>
 </head>
 <body>
-    <!-- ========== HERO SECTION ========== -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="logo-section">
-                <img id="logoImage" alt="Haris Mobile Center Logo" class="logo-img">
-            </div>
-            <h1 id="businessName">Haris Mobile Center</h1>
-            <p class="tagline">Your One-Stop Solution for All Digital Services</p>
-            <p class="tagline">📱 Bills Payment | 💳 Mobile Banking | 📄 NADRA Services | 📋 Documentation</p>
-            <div class="cta-buttons">
-                <a id="callButton" class="btn btn-primary">📞 Call Now</a>
-                <a id="mapsButton" target="_blank" class="btn btn-secondary">📍 Visit Us</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== SERVICES SECTION ========== -->
-    <section class="services">
-        <div class="container">
-            <h2 class="section-title">Our Complete Services</h2>
-            <p class="section-subtitle">Everything you need, all in one place</p>
+    <div class="container">
+        <div class="header">
+            <h1>Google Drive Data Retriever</h1>
+            <p class="subtitle">اپنی API Key استعمال کر کے اپنی files دیکھیں اور download کریں</p>
             
-            <div class="services-grid">
-                <div class="service-card fade-in">
-                    <div class="service-icon">💡</div>
-                    <h3>Bill Payments</h3>
-                    <p>بجلی، گیس، ٹیلی فون اور موبائل بلز کی ادائیگی</p>
-                </div>
-                
-                <div class="service-card fade-in">
-                    <div class="service-icon">💰</div>
-                    <h3>Mobile Banking</h3>
-                    <p>EasyPaisa, JazzCash - فوری اور محفوظ لین دین</p>
-                </div>
-                
-                <div class="service-card fade-in">
-                    <div class="service-icon">📄</div>
-                    <h3>Photostat & Scanning</h3>
-                    <p>فوٹو اسٹیٹ اور اسکیننگ کی سہولیات</p>
-                </div>
-                
-                <div class="service-card fade-in">
-                    <div class="service-icon">🆔</div>
-                    <h3>NADRA Services</h3>
-                    <p>نادرا ای سہولت - مکمل سروسز دستیاب</p>
-                </div>
-                
-                <div class="service-card fade-in">
-                    <div class="service-icon">✅</div>
-                    <h3>Verification Services</h3>
-                    <p>کار بائیومیٹرک ویریفیکیشن</p>
-                </div>
-                
-                <div class="service-card fade-in">
-                    <div class="service-icon">🎓</div>
-                    <h3>Educational Services</h3>
-                    <p>یونیورسٹی فیس، امتحان فیس، آن لائن ایپلیکیشنز</p>
-                </div>
-                
-                <div class="service-card fade-in">
-                    <div class="service-icon">📱</div>
-                    <h3>Mobile Accessories</h3>
-                    <p>موبائل پر گلاس لگانا، چارجرز</p>
-                </div>
-                
-                <div class="service-card fade-in">
-                    <div class="service-icon">💻</div>
-                    <h3>Computer & Electronics</h3>
-                    <p>کمپیوٹر اور الیکٹرانکس کی سہولیات</p>
-                </div>
+            <div class="input-group">
+                <input type="text" id="apiKey" placeholder="اپنی Google Drive API Key یہاں paste کریں" />
+                <button onclick="fetchFiles()">Files لائیں</button>
             </div>
-        </div>
-    </section>
-
-    <!-- ========== URDU SECTION ========== -->
-    <section class="urdu-section">
-        <div class="urdu-content">
-            <h2 class="urdu-title urdu-text">آپ کی تمام ضروریات کا ون اسٹاپ سلوشن</h2>
-            <div class="urdu-description urdu-text">
-                <p>
-                    ہماری ویب سائٹ پر خوش آمدید - بجلی، گیس، ٹیلی فون اور موبائل بلز آن لائن جمع کروائیں۔ EasyPaisa اور JazzCash کے ذریعے آسانی سے لین دین کریں۔ فوٹوسٹیٹ اور اسکیننگ کی سہولیات دستیاب ہیں۔ نادرا کی مکمل خدمات بشمول CNIC کی تصدیق اور کار بائیومیٹرک ویریفیکیشن۔ یونیورسٹی فیسیں، امتحان فیسیں اور آن لائن ایپلیکیشنز۔ موبائل پر گلاس لگانا، چارجرز اور کمپیوٹر کی تمام سہولیات۔ محفوظ، تیز اور قابل اعتماد خدمات۔
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== CONTACT SECTION ========== -->
-    <section class="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <p class="section-subtitle">We're here to help you 24/7</p>
             
-            <div class="contact-grid">
-                <div class="contact-card fade-in">
-                    <div class="contact-icon">📞</div>
-                    <h3>Call Us</h3>
-                    <a id="contactPhone">+92 303 8383680</a>
-                </div>
-                
-                <div class="contact-card fade-in">
-                    <img id="locationImage" alt="Shop Location" class="contact-image">
-                    <div class="contact-icon">📍</div>
-                    <h3>Visit Us</h3>
-                    <a id="contactMaps" target="_blank">View on Google Maps</a>
-                </div>
-                
-                <div class="contact-card fade-in">
-                    <img id="ownerImage" alt="Owner" class="contact-image">
-                    <div class="contact-icon">👤</div>
-                    <h3>Contact Person</h3>
-                    <p id="ownerName" style="font-size: 1.2rem;">Muhammad Rauf</p>
-                </div>
+            <div class="error" id="errorMsg"></div>
+            
+            <div class="note">
+                <strong>نوٹ:</strong> آپ کی API Key صرف آپ کے browser میں استعمال ہوگی، کہیں save نہیں ہوگی۔
             </div>
         </div>
-    </section>
-
-    <!-- ========== FOOTER ========== -->
-    <footer>
-        <p>&copy; 2025 <span id="footerBusiness">Haris Mobile Center</span>. All Rights Reserved.</p>
-        <p>Managed by <span id="footerOwner">Muhammad Rauf</span></p>
-        <p>🌟 Your Trusted Partner for Digital Services 🌟</p>
-    </footer>
+        
+        <div class="loading" id="loading">
+            <h2>⏳ Files لوڈ ہو رہی ہیں...</h2>
+        </div>
+        
+        <div class="files-container" id="filesContainer">
+            <h2>آپ کی Files (<span id="fileCount">0</span>)</h2>
+            <div id="filesList"></div>
+            <button class="load-more" id="loadMoreBtn" style="display: none;" onclick="loadMore()">مزید Files لائیں</button>
+        </div>
+    </div>
 
     <script>
-        const config = {
-            businessName: getComputedStyle(document.documentElement).getPropertyValue('--business-name').replace(/'/g, '').trim(),
-            ownerName: getComputedStyle(document.documentElement).getPropertyValue('--owner-name').replace(/'/g, '').trim(),
-            phoneNumber: getComputedStyle(document.documentElement).getPropertyValue('--phone-number').replace(/'/g, '').trim(),
-            logoImage: getComputedStyle(document.documentElement).getPropertyValue('--logo-image').replace(/'/g, '').trim(),
-            locationImage: getComputedStyle(document.documentElement).getPropertyValue('--location-image').replace(/'/g, '').trim(),
-            ownerImage: getComputedStyle(document.documentElement).getPropertyValue('--owner-image').replace(/'/g, '').trim(),
-            mapsLink: getComputedStyle(document.documentElement).getPropertyValue('--maps-link').replace(/'/g, '').trim()
-        };
+        let nextPageToken = '';
+        let currentApiKey = '';
         
-        // تمام جگہوں پر تبدیلیاں لاگو کریں
-        document.getElementById('logoImage').src = config.logoImage;
-        document.getElementById('locationImage').src = config.locationImage;
-        document.getElementById('ownerImage').src = config.ownerImage;
-        document.getElementById('businessName').textContent = config.businessName;
-        document.getElementById('callButton').href = 'tel:' + config.phoneNumber.replace(/\s/g, '');
-        document.getElementById('mapsButton').href = config.mapsLink;
-        document.getElementById('contactPhone').textContent = config.phoneNumber;
-        document.getElementById('contactPhone').href = 'tel:' + config.phoneNumber.replace(/\s/g, '');
-        document.getElementById('contactMaps').href = config.mapsLink;
-        document.getElementById('ownerName').textContent = config.ownerName;
-        document.getElementById('footerBusiness').textContent = config.businessName;
-        document.getElementById('footerOwner').textContent = config.ownerName;
+        function showError(msg) {
+            const errorDiv = document.getElementById('errorMsg');
+            errorDiv.textContent = msg;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
         
-        // Scroll Animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        function getFileIcon(mimeType) {
+            if (mimeType.includes('folder')) return '📁';
+            if (mimeType.includes('image')) return '🖼️';
+            if (mimeType.includes('video')) return '🎬';
+            if (mimeType.includes('audio')) return '🎵';
+            if (mimeType.includes('pdf')) return '📄';
+            if (mimeType.includes('document') || mimeType.includes('text')) return '📝';
+            if (mimeType.includes('sheet') || mimeType.includes('excel')) return '📊';
+            if (mimeType.includes('presentation')) return '📽️';
+            return '📎';
+        }
+        
+        function formatFileSize(bytes) {
+            if (!bytes) return 'N/A';
+            const kb = bytes / 1024;
+            const mb = kb / 1024;
+            const gb = mb / 1024;
+            
+            if (gb >= 1) return gb.toFixed(2) + ' GB';
+            if (mb >= 1) return mb.toFixed(2) + ' MB';
+            if (kb >= 1) return kb.toFixed(2) + ' KB';
+            return bytes + ' bytes';
+        }
+        
+        async function fetchFiles(pageToken = '') {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            
+            if (!apiKey) {
+                showError('براہ کرم API Key درج کریں');
+                return;
+            }
+            
+            currentApiKey = apiKey;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('errorMsg').style.display = 'none';
+            
+            try {
+                let url = `https://www.googleapis.com/drive/v3/files?key=${apiKey}&fields=nextPageToken,files(id,name,mimeType,size,modifiedTime)&pageSize=100`;
+                
+                if (pageToken) {
+                    url += `&pageToken=${pageToken}`;
                 }
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayFiles(data.files, pageToken === '');
+                    nextPageToken = data.nextPageToken || '';
+                    
+                    if (nextPageToken) {
+                        document.getElementById('loadMoreBtn').style.display = 'block';
+                    } else {
+                        document.getElementById('loadMoreBtn').style.display = 'none';
+                    }
+                    
+                    document.getElementById('filesContainer').style.display = 'block';
+                } else {
+                    showError(data.error?.message || 'API Key غلط ہے یا expired ہو گئی ہے');
+                }
+            } catch (err) {
+                showError('نیٹ ورک کی خرابی: ' + err.message);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+        
+        function displayFiles(files, clearPrevious = true) {
+            const filesList = document.getElementById('filesList');
+            
+            if (clearPrevious) {
+                filesList.innerHTML = '';
+            }
+            
+            files.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                const isFolder = file.mimeType.includes('folder');
+                
+                fileItem.innerHTML = `
+                    <div class="file-info">
+                        <div class="file-icon">${getFileIcon(file.mimeType)}</div>
+                        <div class="file-details">
+                            <h3>${file.name}</h3>
+                            <div class="file-meta">
+                                ${formatFileSize(file.size)} • ${new Date(file.modifiedTime).toLocaleDateString('ur-PK')}
+                            </div>
+                        </div>
+                    </div>
+                    ${!isFolder ? `<button class="download-btn" onclick="downloadFile('${file.id}', '${file.name.replace(/'/g, "\\'")}')">⬇️ Download</button>` : ''}
+                `;
+                
+                filesList.appendChild(fileItem);
             });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+            
+            const currentCount = filesList.children.length;
+            document.getElementById('fileCount').textContent = currentCount;
+        }
+        
+        async function downloadFile(fileId, fileName) {
+            try {
+                const response = await fetch(
+                    `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${currentApiKey}`
+                );
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                } else {
+                    alert('فائل download نہیں ہو سکی');
+                }
+            } catch (err) {
+                alert('Download میں خرابی: ' + err.message);
+            }
+        }
+        
+        function loadMore() {
+            if (nextPageToken) {
+                fetchFiles(nextPageToken);
+            }
+        }
     </script>
 </body>
 </html>
