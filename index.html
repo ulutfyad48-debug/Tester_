@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haris Mobile Center - Your One-Stop Solution</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           🔧 آسان تبدیلیاں یہاں کریں 
+        ======================================== */
+        :root {
+            /* 📝 بزنس کی معلومات */
+            --business-name: 'Haris Mobile Center';
+            --owner-name: 'Muhammad Rauf';
+            --phone-number: '+92 303 8383680';
+            
+            /* 🖼️ تصاویر کے لنکس */
+            --logo-image: 'https://drive.google.com/uc?export=view&id=16WUayn4IWRxE5kjyEoKVjVIqfH3gRbhj';
+            --location-image: 'https://drive.google.com/uc?export=view&id=YOUR_LOCATION_IMAGE_ID';
+            --owner-image: 'https://drive.google.com/uc?export=view&id=YOUR_OWNER_IMAGE_ID';
+            
+            /* 📍 لوکیشن */
+            --maps-link: 'https://goo.gl/maps/7k4MyFugPeizbVVe9';
+            
+            /* 🎨 رنگ */
+            --primary-color: #2563eb;
+            --secondary-color: #10b981;
+        }
+        /* ======================================== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .urdu-text {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            direction: rtl;
+            text-align: right;
+        }
+        
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23ffffff" opacity="0.05" width="1200" height="800"/></svg>');
+            opacity: 0.15;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+            max-width: 1200px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo-section {
+            margin-bottom: 30px;
+        }
+        
+        .logo-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            object-fit: cover;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            margin: 15px 0;
+            font-weight: 300;
+        }
+        
+        .cta-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+        
+        .services {
+            padding: 80px 20px;
+            background: #f8fafc;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 50px;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .service-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .service-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .urdu-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .urdu-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .urdu-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .urdu-description {
+            font-size: 1.3rem;
+            line-height: 2.2;
+            text-align: justify;
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .contact {
+            padding: 80px 20px;
+            background: white;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .contact-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 40px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .contact-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .contact-card a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            word-break: break-all;
+        }
+        
+        footer {
+            background: #1e293b;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        footer p {
+            margin: 10px 0;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .urdu-title {
+                font-size: 2rem;
+            }
+            
+            .urdu-description {
+                font-size: 1.1rem;
+            }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== HERO SECTION ========== -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="logo-section">
+                <img id="logoImage" alt="Haris Mobile Center Logo" class="logo-img">
+            </div>
+            <h1 id="businessName">Haris Mobile Center</h1>
+            <p class="tagline">Your One-Stop Solution for All Digital Services</p>
+            <p class="tagline">📱 Bills Payment | 💳 Mobile Banking | 📄 NADRA Services | 📋 Documentation</p>
+            <div class="cta-buttons">
+                <a id="callButton" class="btn btn-primary">📞 Call Now</a>
+                <a id="mapsButton" target="_blank" class="btn btn-secondary">📍 Visit Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SERVICES SECTION ========== -->
+    <section class="services">
+        <div class="container">
+            <h2 class="section-title">Our Complete Services</h2>
+            <p class="section-subtitle">Everything you need, all in one place</p>
+            
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon">💡</div>
+                    <h3>Bill Payments</h3>
+                    <p>بجلی، گیس، ٹیلی فون اور موبائل بلز کی ادائیگی</p>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-icon">💰</div>
+                    <h3>Mobile Banking</h3>
+                    <p>EasyPaisa, JazzCash - فوری اور محفوظ لین دین</p>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-icon">📄</div>
+                    <h3>Photostat & Scanning</h3>
+                    <p>فوٹو اسٹیٹ اور اسکیننگ کی سہولیات</p>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-icon">🆔</div>
+                    <h3>NADRA Services</h3>
+                    <p>نادرا ای سہولت - مکمل سروسز دستیاب</p>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-icon">✅</div>
+                    <h3>Verification Services</h3>
+                    <p>کار بائیومیٹرک ویریفیکیشن</p>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-icon">🎓</div>
+                    <h3>Educational Services</h3>
+                    <p>یونیورسٹی فیس، امتحان فیس، آن لائن ایپلیکیشنز</p>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-icon">📱</div>
+                    <h3>Mobile Accessories</h3>
+                    <p>موبائل اکاؤنٹس، گلاس لگانا، چارجرز</p>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <div class="service-icon">💻</div>
+                    <h3>Computer & Electronics</h3>
+                    <p>کمپیوٹر اور الیکٹرانکس کی سہولیات</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== URDU SECTION ========== -->
+    <section class="urdu-section">
+        <div class="urdu-content">
+            <h2 class="urdu-title urdu-text">آپ کی تمام ضروریات کا ون اسٹاپ سلوشن</h2>
+            <div class="urdu-description urdu-text">
+                <p>
+                    ہماری ویب سائٹ پر خوش آمدید - بجلی، گیس، ٹیلی فون اور موبائل بلز آن لائن جمع کروائیں۔ EasyPaisa اور JazzCash کے ذریعے آسانی سے لین دین کریں۔ فوٹوسٹیٹ اور اسکیننگ کی سہولیات دستیاب ہیں۔ نادرا کی مکمل خدمات بشمول CNIC کی تصدیق اور کار بائیومیٹرک ویریفیکیشن۔ یونیورسٹی فیسیں، امتحان فیسیں اور آن لائن ایپلیکیشنز۔ موبائل اکاؤنٹس، گلاس لگانا، چارجرز اور کمپیوٹر کی تمام سہولیات۔ محفوظ، تیز اور قابل اعتماد خدمات۔
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACT SECTION ========== -->
+    <section class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="section-subtitle">We're here to help you 24/7</p>
+            
+            <div class="contact-grid">
+                <div class="contact-card fade-in">
+                    <div class="contact-icon">📞</div>
+                    <h3>Call Us</h3>
+                    <a id="contactPhone">+92 303 8383680</a>
+                </div>
+                
+                <div class="contact-card fade-in">
+                    <div class="contact-icon">📍</div>
+                    <h3>Visit Us</h3>
+                    <a id="contactMaps" target="_blank">View on Google Maps</a>
+                </div>
+                
+                <div class="contact-card fade-in">
+                    <div class="contact-icon">👤</div>
+                    <h3>Contact Person</h3>
+                    <p id="ownerName" style="font-size: 1.2rem;">Muhammad Rauf</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <p>&copy; 2025 <span id="footerBusiness">Haris Mobile Center</span>. All Rights Reserved.</p>
+        <p>Managed by <span id="footerOwner">Muhammad Rauf</span></p>
+        <p>🌟 Your Trusted Partner for Digital Services 🌟</p>
+    </footer>
+
+    <script>
+        // تبدیلیاں یہاں سے لی جاتی ہیں
+        const config = {
+            businessName: getComputedStyle(document.documentElement).getPropertyValue('--business-name').replace(/'/g, '').trim(),
+            ownerName: getComputedStyle(document.documentElement).getPropertyValue('--owner-name').replace(/'/g, '').trim(),
+            phoneNumber: getComputedStyle(document.documentElement).getPropertyValue('--phone-number').replace(/'/g, '').trim(),
+            logoImage: getComputedStyle(document.documentElement).getPropertyValue('--logo-image').replace(/'/g, '').trim(),
+            locationImage: getComputedStyle(document.documentElement).getPropertyValue('--location-image').replace(/'/g, '').trim(),
+            ownerImage: getComputedStyle(document.documentElement).getPropertyValue('--owner-image').replace(/'/g, '').trim(),
+            mapsLink: getComputedStyle(document.documentElement).getPropertyValue('--maps-link').replace(/'/g, '').trim()
+        };
+        
+        // تمام جگہوں پر تبدیلیاں لاگو کریں
+        document.getElementById('logoImage').src = config.logoImage;
+        document.getElementById('businessName').textContent = config.businessName;
+        document.getElementById('callButton').href = 'tel:' + config.phoneNumber.replace(/\s/g, '');
+        document.getElementById('mapsButton').href = config.mapsLink;
+        document.getElementById('contactPhone').textContent = config.phoneNumber;
+        document.getElementById('contactPhone').href = 'tel:' + config.phoneNumber.replace(/\s/g, '');
+        document.getElementById('contactMaps').href = config.mapsLink;
+        document.getElementById('ownerName').textContent = config.ownerName;
+        document.getElementById('footerBusiness').textContent = config.businessName;
+        document.getElementById('footerOwner').textContent = config.ownerName;
+        
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
