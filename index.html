@@ -363,7 +363,7 @@
     .modal-content {
       background: var(--white);
       width: 100%;
-      max-width: 520px;
+      max-width: 560px;
       border-radius: 32px 32px 0 0;
       padding: 32px 28px;
       max-height: 90vh;
@@ -403,12 +403,61 @@
       transform: rotate(90deg);
     }
 
-    .item-row {
+    /* editable cart items inside modal */
+    .cart-item {
       display: flex;
       justify-content: space-between;
-      font-size: 0.95rem;
-      padding: 10px 0;
-      border-bottom: 1px dashed #e9ecef;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    .cart-item-info {
+      flex: 2;
+    }
+    .cart-item-title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .cart-item-price {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+    .cart-item-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cart-item-qty {
+      background: var(--primary);
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+    }
+    .cart-item-qty button {
+      background: transparent;
+      border: none;
+      color: white;
+      width: 30px;
+      height: 30px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 30px;
+    }
+    .cart-item-qty button:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    .cart-item-qty span {
+      color: white;
+      font-weight: 600;
+      min-width: 28px;
+      text-align: center;
+    }
+    .cart-item-subtotal {
+      font-weight: 600;
+      min-width: 70px;
+      text-align: right;
     }
 
     .bill-section {
@@ -435,19 +484,32 @@
       padding-top: 12px;
     }
 
-    .delivery-msg {
-      background: #ecf9f0;
-      color: #087f5b;
-      padding: 16px;
-      border-radius: 18px;
+    /* bilingual delivery note */
+    .delivery-note {
+      background: #f0f9f0;
+      border-left: 4px solid var(--secondary);
+      padding: 14px 18px;
+      border-radius: 16px;
+      margin: 20px 0 18px;
       font-size: 0.85rem;
-      margin-bottom: 28px;
-      border-left: 4px solid #2ed573;
-      font-weight: 500;
+      color: #0b5432;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
     }
-
-    .delivery-msg i {
-      margin-right: 6px;
+    .delivery-note i {
+      color: var(--secondary);
+      font-size: 1.2rem;
+      margin-top: 2px;
+    }
+    .delivery-note p {
+      line-height: 1.5;
+    }
+    .urdu-text {
+      font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Urdu Typesetting', serif;
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: #0d492d;
     }
 
     .form-input {
@@ -491,10 +553,31 @@
       transform: scale(1.01);
     }
 
-    /* small polish */
     textarea.form-input {
       resize: vertical;
-      min-height: 90px;
+      min-height: 80px;
+    }
+
+    .small-note {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin: 8px 0 0;
+      text-align: center;
+    }
+
+    .clear-cart {
+      background: none;
+      border: 1px solid #ddd;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      color: var(--gray);
+      cursor: pointer;
+      transition: var(--transition);
+      margin-left: 12px;
+    }
+    .clear-cart:hover {
+      background: #f1f2f6;
     }
   </style>
 </head>
@@ -531,39 +614,49 @@
   <div class="modal-content">
     <div class="modal-header">
       <h2>Your order</h2>
-      <i class="fas fa-times" onclick="closeCheckout()"></i>
+      <div style="display:flex; align-items:center;">
+        <button class="clear-cart" onclick="clearCart()"><i class="fas fa-trash-alt"></i> Clear</button>
+        <i class="fas fa-times" onclick="closeCheckout()" style="margin-left:12px;"></i>
+      </div>
     </div>
 
-    <div id="checkoutList"></div>
+    <div id="checkoutList"></div> <!-- dynamic cart items with +/- -->
 
+    <!-- FIXED DELIVERY FEE 150 (no dropdown) -->
     <div class="bill-section">
-      <div class="bill-row"><span>Subtotal</span> <span id="summSub">Rs 0</span></div>
+      <div class="bill-row"><span>Subtotal</span> <span id="modalSubtotal">Rs 0</span></div>
       <div class="bill-row"><span>Delivery fee</span> <span>Rs 150</span></div>
-      <div class="bill-row total"><span>Total</span> <span id="summTotal">Rs 0</span></div>
+      <div class="bill-row total"><span>Total</span> <span id="modalTotal">Rs 0</span></div>
     </div>
 
-    <!-- DELIVERY MESSAGE (fully English, clear terms) -->
-    <div class="delivery-msg">
-      <i class="fas fa-map-marker-alt"></i> 
-      <strong>Free delivery within 3km.</strong> Standard Rs 150 fee applies beyond that.  
-      We may reduce or waive the charge depending on your exact location — we’ll confirm.
+    <!-- BILINGUAL NOTE (English + Urdu) about possible reduction -->
+    <div class="delivery-note">
+      <i class="fas fa-truck"></i>
+      <div>
+        <p><strong>🚚 Delivery:</strong> Standard Rs 150 for all areas. If your location is within 3km, we may reduce the fee — we’ll confirm by call.</p>
+        <p class="urdu-text"><strong>📦 ڈلیوری:</strong> تمام مقامات کے لیے معیاری چارجز 150 روپے ہیں۔ اگر آپ کا علاقہ 3 کلومیٹر کے اندر ہے تو ہم ڈلیوری میں کمی کر سکتے ہیں – ہم کال کر کے تصدیق کریں گے۔</p>
+      </div>
     </div>
 
     <h4 style="margin-bottom: 15px; font-weight:600;">Delivery details</h4>
     <input type="text" id="uName" class="form-input" placeholder="Your full name">
     <input type="tel" id="uPhone" class="form-input" placeholder="Phone number">
-    <textarea id="uAddress" class="form-input" rows="3" placeholder="Full address (house #, street, area)"></textarea>
+    <textarea id="uAddress" class="form-input" rows="2" placeholder="Full address (house #, street, area)"></textarea>
+    
+    <!-- special instructions (advanced) -->
+    <textarea id="specialInstructions" class="form-input" rows="2" placeholder="Special instructions (optional)"></textarea>
 
     <button class="btn-final" onclick="sendOrder()">
       <i class="fab fa-whatsapp"></i> Send order on WhatsApp
     </button>
+    <div class="small-note">We may adjust delivery fee based on exact location.</div>
   </div>
 </div>
 
 <script>
   /* ========== PROFESSIONAL CONFIG ========== */
   const PHONE_NUMBER = "923159392716";
-  const DELIVERY_FEE = 150;
+  const DELIVERY_FEE = 150; // fixed for all areas
 
   const MENU = [
     { id: 1, cat: "Pizza", title: "Chicken Fajita", desc: "Spicy chicken, onions & cheese", price: 1200, img: "https://source.unsplash.com/300x200/?pizza" },
@@ -576,14 +669,20 @@
     { id: 8, cat: "Deals", title: "Student Deal", desc: "Zinger + fries + drink", price: 550, img: "https://source.unsplash.com/300x200/?fastfood" }
   ];
 
-  // --- state ---
-  let cart = {};          // { id: quantity }
+  // --- state (cart persisted in localStorage) ---
+  let cart = JSON.parse(localStorage.getItem('quickBiteCart')) || {};   // { id: quantity }
   let currentCat = "All";
 
-  // --- init ---
+  // --- helper functions ---
+  function saveCart() {
+    localStorage.setItem('quickBiteCart', JSON.stringify(cart));
+  }
+
+  // --- init rendering ---
   function init() {
     renderCategories();
     renderProducts();
+    updateCartBar();
   }
 
   // --- categories ---
@@ -601,7 +700,7 @@
     renderProducts();
   };
 
-  // --- products (with dynamic add/counter) ---
+  // --- products (with add/counter) ---
   function renderProducts() {
     const container = document.getElementById("productContainer");
     const filtered = currentCat === "All" ? MENU : MENU.filter(m => m.cat === currentCat);
@@ -633,12 +732,19 @@
     updateCartBar();
   }
 
-  // --- cart update ---
+  // --- update quantity (from product grid or modal) ---
   window.updateQty = (id, change) => {
     if (!cart[id]) cart[id] = 0;
     cart[id] += change;
     if (cart[id] <= 0) delete cart[id];
-    renderProducts();     // fast & simple, keeps UI in sync
+    saveCart();
+    renderProducts();      // refresh grid counters
+    // if modal is open, refresh its content
+    if (document.getElementById('checkoutModal').style.display === 'flex') {
+      renderCheckoutItems();
+      updateModalTotals();
+    }
+    updateCartBar();
   };
 
   // --- update cart bar (total items & price) ---
@@ -656,77 +762,123 @@
     if (totalQty > 0) {
       bar.classList.add("visible");
       document.getElementById("totalItems").innerText = `${totalQty} item${totalQty > 1 ? 's' : ''}`;
+      // show total with fixed delivery fee (150)
       document.getElementById("totalPrice").innerText = `Rs ${subtotal + DELIVERY_FEE}`;
     } else {
       bar.classList.remove("visible");
     }
   }
 
-  // --- open modal & populate summary ---
+  // --- open modal & render checkout items ---
   window.openCheckout = () => {
-    const listDiv = document.getElementById("checkoutList");
-    let subtotal = 0;
-    let html = '';
-
-    for (const [id, qty] of Object.entries(cart)) {
-      const item = MENU.find(m => m.id == id);
-      if (item) {
-        const line = item.price * qty;
-        subtotal += line;
-        html += `<div class="item-row"><span>${item.title} <strong>×${qty}</strong></span><span>Rs ${line}</span></div>`;
-      }
+    if (Object.keys(cart).length === 0) {
+      alert("Your cart is empty.");
+      return;
     }
-
-    listDiv.innerHTML = html || '<p style="text-align:center; color:gray;">No items</p>';
-    document.getElementById("summSub").innerText = `Rs ${subtotal}`;
-    document.getElementById("summTotal").innerText = `Rs ${subtotal + DELIVERY_FEE}`;
+    renderCheckoutItems();
+    updateModalTotals();
     document.getElementById("checkoutModal").style.display = "flex";
   };
+
+  // render items inside modal with +/- controls
+  function renderCheckoutItems() {
+    const container = document.getElementById("checkoutList");
+    let html = '';
+    for (const [id, qty] of Object.entries(cart)) {
+      const item = MENU.find(m => m.id == id);
+      if (!item) continue;
+      html += `
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <div class="cart-item-title">${item.title}</div>
+            <div class="cart-item-price">Rs ${item.price} each</div>
+          </div>
+          <div class="cart-item-controls">
+            <div class="cart-item-qty">
+              <button onclick="updateQty(${id}, -1)">−</button>
+              <span>${qty}</span>
+              <button onclick="updateQty(${id}, 1)">+</button>
+            </div>
+            <div class="cart-item-subtotal">Rs ${item.price * qty}</div>
+          </div>
+        </div>
+      `;
+    }
+    container.innerHTML = html;
+  }
+
+  // update subtotal and total (delivery fixed at 150)
+  function updateModalTotals() {
+    let subtotal = 0;
+    for (const [id, qty] of Object.entries(cart)) {
+      const item = MENU.find(m => m.id == id);
+      if (item) subtotal += item.price * qty;
+    }
+    document.getElementById('modalSubtotal').innerText = `Rs ${subtotal}`;
+    document.getElementById('modalTotal').innerText = `Rs ${subtotal + DELIVERY_FEE}`;
+  }
 
   window.closeCheckout = () => {
     document.getElementById("checkoutModal").style.display = "none";
   };
 
-  // --- WhatsApp order (clean english message) ---
+  // clear entire cart
+  window.clearCart = () => {
+    if (confirm("Empty your cart?")) {
+      cart = {};
+      saveCart();
+      renderProducts();
+      closeCheckout();
+      updateCartBar();
+    }
+  };
+
+  // --- send WhatsApp order (with bilingual note) ---
   window.sendOrder = () => {
     const name = document.getElementById("uName").value.trim();
     const phone = document.getElementById("uPhone").value.trim();
     const address = document.getElementById("uAddress").value.trim();
+    const special = document.getElementById("specialInstructions").value.trim();
 
     if (!name || !phone || !address) {
-      alert("Please fill in all delivery fields.");
+      alert("Please fill in name, phone and address.");
       return;
     }
 
-    let msg = `🍔 *New order - Quick Bite Cafe*%0a%0a`;
-    msg += `👤 *Name:* ${name}%0a📞 *Phone:* ${phone}%0a📍 *Address:* ${address}%0a%0a`;
-    msg += `*Order items:*%0a`;
-
     let subtotal = 0;
+    let orderLines = '';
     for (const [id, qty] of Object.entries(cart)) {
       const item = MENU.find(m => m.id == id);
       if (item) {
-        msg += `• ${item.title} x${qty} = Rs ${item.price * qty}%0a`;
+        orderLines += `• ${item.title} x${qty} = Rs ${item.price * qty}%0a`;
         subtotal += item.price * qty;
       }
     }
 
-    msg += `%0a----------------%0a`;
-    msg += `Subtotal: Rs ${subtotal}%0a`;
-    msg += `Delivery: Rs ${DELIVERY_FEE} (free within 3km)%0a`;
-    msg += `*TOTAL: Rs ${subtotal + DELIVERY_FEE}*%0a`;
+    const total = subtotal + DELIVERY_FEE;
+
+    let msg = `🍔 *New order - Quick Bite Cafe*%0a%0a`;
+    msg += `👤 *Name:* ${name}%0a📞 *Phone:* ${phone}%0a📍 *Address:* ${address}%0a`;
+    if (special) msg += `📝 *Note:* ${special}%0a`;
+    msg += `%0a*Order items:*%0a${orderLines}`;
     msg += `----------------%0a`;
-    msg += `_We may adjust delivery fee based on exact location._`;
+    msg += `Subtotal: Rs ${subtotal}%0a`;
+    msg += `Delivery: Rs ${DELIVERY_FEE} (standard)%0a`;
+    msg += `*TOTAL: Rs ${total}*%0a`;
+    msg += `----------------%0a`;
+    msg += `_If your location is closer, we may reduce delivery — we'll call you._%0a`;
+    msg += `_اگر آپ کا علاقہ قریب ہے تو ہم ڈلیوری کم کر سکتے ہیں − ہم کال کریں گے._%0a`;
+    msg += `Thank you!`;
 
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${msg}`, '_blank');
   };
 
-  // close modal if clicked outside content
+  // close modal when clicking overlay
   document.getElementById("checkoutModal").addEventListener('click', function(e) {
     if (e.target === this) closeCheckout();
   });
 
-  // start
+  // load cart from localStorage on start
   init();
 </script>
 </body>
