@@ -1,680 +1,500 @@
 <!DOCTYPE html>
-<html lang="ur" dir="rtl">
+<html lang="ur">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Specs Pro - موبائل سپیکس ایکسپلورر</title>
+    <title>موبائل سپیکس پرو (Smart Database)</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563eb;
-            --secondary: #1e40af;
-            --accent: #3b82f6;
-            --bg: #f8fafc;
+            --primary-gradient: linear-gradient(135deg, #2563eb, #1e40af);
+            --bg-color: #f0f2f5;
             --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --accent: #3b82f6;
         }
 
-        /* English LTR Override */
-        body.ltr {
-            direction: ltr;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-        }
-        body.ltr .search-container i { left: 20px; right: auto; }
-        body.ltr #searchInput { padding: 18px 20px 18px 50px; }
-        body.ltr .spec-item { border-right: none; border-left: 4px solid var(--primary); }
-        body.ltr .close-btn { right: 20px; left: auto; }
+        * { box-sizing: border-box; outline: none; }
 
         body {
-            font-family: 'Segoe UI', 'Noto Nastaliq Urdu', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg);
+            font-family: 'Segoe UI', 'Noto Nastaliq Urdu', system-ui, sans-serif;
+            background-color: var(--bg-color);
             margin: 0;
             padding: 0;
-            color: var(--text-main);
-            transition: all 0.3s ease;
+            direction: rtl;
+            color: var(--text-dark);
         }
 
-        /* Header Styling */
+        /* Modern Header */
         header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-            color: white;
+            background: var(--primary-gradient);
             padding: 50px 20px;
             text-align: center;
+            color: white;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
             position: relative;
             overflow: hidden;
         }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url('https://www.transparenttextures.com/patterns/cubes.png');
-            opacity: 0.1;
-        }
+        header h1 { margin: 0; font-size: 2.8rem; font-weight: 800; letter-spacing: -1px; }
+        header p { opacity: 0.9; font-size: 1.2rem; margin-top: 10px; }
 
-        .lang-toggle {
-            position: absolute;
-            top: 20px;
-            left: 20px; /* RTL default */
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            z-index: 10;
-        }
-        body.ltr .lang-toggle { left: auto; right: 20px; }
-
-        header h1 { margin: 0; font-size: 2.8rem; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        header p { margin: 15px 0 30px; font-size: 1.2rem; opacity: 0.9; }
-
-        /* Search Bar */
+        /* Floating Search Bar */
         .search-wrapper {
             max-width: 700px;
-            margin: 0 auto;
+            margin: -30px auto 40px;
             position: relative;
-            z-index: 2;
-        }
-
-        .search-container { position: relative; }
-        
-        .search-container i {
-            position: absolute;
-            right: 25px; /* RTL default */
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-            font-size: 1.2rem;
-        }
-
-        #searchInput {
-            width: 100%;
-            padding: 20px 60px 20px 25px; /* RTL Padding */
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 50px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-            outline: none;
-            transition: transform 0.2s;
-        }
-        #searchInput:focus { transform: scale(1.02); }
-
-        /* Main Grid */
-        .container {
-            max-width: 1300px;
-            margin: -40px auto 40px; /* Overlap header */
             padding: 0 20px;
+            z-index: 10;
+        }
+
+        .search-box {
             position: relative;
-            z-index: 3;
+            background: white;
+            border-radius: 50px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .search-box:focus-within { transform: translateY(-3px); box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
+
+        .search-box input {
+            width: 100%;
+            padding: 20px 60px 20px 20px;
+            border: none;
+            font-size: 1.1rem;
+            font-family: inherit;
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 25px;
+            color: var(--accent);
+            font-size: 1.4rem;
+        }
+
+        /* Results Grid */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
         }
 
         #results {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 25px;
+            gap: 30px;
         }
 
-        /* Card Design */
+        /* Pro Card Design */
         .card {
             background: var(--card-bg);
             border-radius: 20px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid white;
+            padding: 15px;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
-            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
         .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             border-color: var(--accent);
         }
 
-        .card-img-wrapper {
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px; /* RTL fix */
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--accent);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .card-img {
             height: 220px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 15px;
-            background: #f1f5f9;
+            background: radial-gradient(circle, #f9fafb 0%, #ffffff 70%);
             border-radius: 15px;
-            overflow: hidden;
         }
 
-        .card img { max-height: 90%; max-width: 90%; object-fit: contain; transition: transform 0.3s; }
-        .card:hover img { transform: scale(1.1); }
-        
+        .card img {
+            max-height: 90%;
+            max-width: 90%;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        .card:hover img { transform: scale(1.08); }
+
         .card h3 {
             margin: 10px 0;
             font-size: 1.2rem;
             text-align: center;
-            color: var(--text-main);
-            font-weight: 700;
+            color: var(--text-dark);
         }
 
-        .tags {
+        .specs-preview {
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-        .tag {
-            background: #eff6ff;
-            color: var(--primary);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 10px;
         }
 
-        .btn-details {
+        .specs-preview div { text-align: center; }
+        .specs-preview i { display: block; margin-bottom: 5px; color: var(--accent); }
+
+        .btn-view {
             margin-top: auto;
-            background-color: var(--primary);
+            background: var(--primary-gradient);
             color: white;
             border: none;
             padding: 12px;
             border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
+            transition: opacity 0.3s;
+            width: 100%;
         }
-        .btn-details:hover { background-color: var(--secondary); }
+        .btn-view:hover { opacity: 0.9; }
 
-        /* Fallback Box */
-        .fallback-box {
+        /* Fallback Iframe Section */
+        #fallbackSection {
+            display: none;
             grid-column: 1 / -1;
             background: white;
-            padding: 40px;
             border-radius: 20px;
-            text-align: center;
-            box-shadow: var(--shadow);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s;
         }
-        .fallback-btn {
-            background: #ea580c;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 15px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .fallback-btn:hover { background: #c2410c; transform: translateY(-2px); }
 
-        /* Modal */
+        .fallback-header {
+            padding: 20px;
+            background: #fff3cd;
+            color: #856404;
+            text-align: center;
+            border-bottom: 1px solid #ffeeba;
+        }
+
+        iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+        }
+
+        /* Modal Styles */
         .modal-overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(15, 23, 42, 0.8);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
             backdrop-filter: blur(8px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            animation: fadeIn 0.3s;
         }
 
         .modal-content {
-            background: var(--card-bg);
+            background: white;
             width: 100%;
-            max-width: 900px;
+            max-width: 800px;
             max-height: 90vh;
             border-radius: 24px;
+            padding: 30px;
             overflow-y: auto;
             position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            display: flex;
-            flex-direction: column;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
         }
 
-        .close-btn {
+        .close-modal {
             position: absolute;
-            top: 20px; left: 20px; /* RTL default */
-            background: #f1f5f9;
-            color: var(--text-main);
+            top: 20px; left: 20px;
+            background: #fee2e2;
+            color: #ef4444;
             border: none;
-            border-radius: 50%;
             width: 40px; height: 40px;
-            font-size: 1.2rem;
+            border-radius: 50%;
             cursor: pointer;
-            transition: 0.2s;
-            z-index: 20;
+            font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center;
         }
-        .close-btn:hover { background: #fee2e2; color: #ef4444; }
 
-        /* Modal Body */
-        .specs-header {
-            background: #f8fafc;
-            padding: 30px;
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            border-bottom: 1px solid var(--border);
-        }
-        .specs-header img { width: 140px; height: auto; mix-blend-mode: multiply; }
-        
-        .specs-body { padding: 30px; }
-        .specs-grid {
+        .spec-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 15px;
+            margin-top: 20px;
         }
+        
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            border-bottom: 1px dashed #e5e7eb;
+        }
+        .spec-row strong { color: var(--text-light); }
+        .spec-row span { font-weight: 600; color: var(--text-dark); text-align: left; }
 
-        .spec-item {
-            background: #fff;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            border-right: 4px solid var(--primary); /* RTL default */
-        }
-        .spec-item strong { display: block; color: var(--text-light); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 5px; }
-        .spec-item span { font-size: 1.05rem; font-weight: 500; color: var(--text-main); }
+        .loader { text-align: center; padding: 40px; color: var(--text-light); font-size: 1.2rem; grid-column: 1/-1;}
 
-        /* External Frame */
-        #externalFrame {
-            width: 100%;
-            height: 600px;
-            border: none;
-            border-radius: 0 0 24px 24px;
-        }
-        .external-warning {
-            padding: 15px;
-            background: #fff7ed;
-            color: #c2410c;
-            text-align: center;
-            font-size: 0.9rem;
-            border-bottom: 1px solid #ffedd5;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @media (max-width: 768px) {
-            .specs-header { flex-direction: column; text-align: center; }
-            header h1 { font-size: 2rem; }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <header>
-        <button class="lang-toggle" onclick="toggleLanguage()">
-            <i class="fas fa-language"></i> <span id="langText">English</span>
-        </button>
-        <h1 id="siteTitle">موبائل سپیکس ایکسپلورر</h1>
-        <p id="siteSubtitle">ہزاروں فونز کی تفصیلات، دو بڑے ڈیٹا بیسز سے</p>
-        
-        <div class="search-wrapper">
-            <div class="search-container">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="موبائل کا نام لکھیں..." autocomplete="off">
-            </div>
-        </div>
+        <h1>موبائل سپیکس ایکسپلورر</h1>
+        <p>تمام موبائل برانڈز کا سب سے بڑا ڈیٹا بیس - اردو اور انگلش سپورٹ کے ساتھ</p>
     </header>
+
+    <div class="search-wrapper">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="موبائل کا نام لکھیں (مثلاً Samsung, Nokia, Alcatel...)">
+        </div>
+    </div>
 
     <div class="container">
         <div id="results">
-            <div style="grid-column: 1/-1; text-align: center; padding: 50px; color: #64748b;">
-                <i class="fas fa-spinner fa-spin fa-3x"></i>
-                <p style="margin-top: 20px;">ڈیٹا لوڈ ہو رہا ہے، براہ کرم انتظار کریں...</p>
-            </div>
+            <div class="loader"><i class="fas fa-circle-notch fa-spin"></i> ڈیٹا بیس لوڈ ہو رہا ہے، براہ کرم انتظار کریں...</div>
         </div>
-        
-        <div id="loadMoreContainer" style="text-align: center; margin-top: 30px; display: none;">
-            <button onclick="loadMore()" style="background: white; border: 1px solid var(--border); padding: 10px 30px; border-radius: 30px; cursor: pointer; color: var(--primary); font-weight: bold;">
-                <i class="fas fa-arrow-down"></i> <span class="txt-more">مزید دیکھیں</span>
-            </button>
+
+        <div id="fallbackSection">
+            <div class="fallback-header">
+                <i class="fas fa-info-circle"></i> معذرت! ہمارے ڈیٹا بیس میں یہ فون نہیں ملا۔ آپ کے لیے انٹرنیٹ سے براہ راست تلاش کیا جا رہا ہے (نیچے دیکھیں)
+            </div>
+            <iframe id="extFrame" src=""></iframe>
         </div>
     </div>
 
-    <div class="modal-overlay" id="specsModal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeSpecsModal()"><i class="fas fa-times"></i></button>
-            <div id="modalBodyContent">
-                </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="externalModal">
-        <div class="modal-content" style="height: 85vh; max-width: 1000px;">
-            <button class="close-btn" onclick="closeExternalModal()"><i class="fas fa-times"></i></button>
-            <div class="external-warning">
-                <span class="txt-ext-warn">اگر ویب سائٹ نیچے لوڈ نہیں ہوتی (سیکیورٹی کی وجہ سے)، تو براہ راست کھولنے کے لیے یہاں کلک کریں:</span>
-                <a href="#" id="directExternalLink" target="_blank" style="font-weight: bold; text-decoration: underline;">Open Link</a>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content" id="modalContent">
             </div>
-            <iframe id="externalFrame" src=""></iframe>
-        </div>
     </div>
 
     <script>
-        // --- 1. CONFIGURATION & TRANSLATIONS ---
-        const config = {
-            files: ['mobiles.json', 'convertcsv (2).json'],
-            itemsPerPage: 24,
-            currentLang: 'ur'
-        };
+        let allMobiles = [];
+        const resultsDiv = document.getElementById('results');
+        const fallbackSection = document.getElementById('fallbackSection');
+        const extFrame = document.getElementById('extFrame');
+        const modalOverlay = document.getElementById('modalOverlay');
 
-        const i18n = {
-            ur: {
-                title: "موبائل سپیکس ایکسپلورر",
-                subtitle: "ہزاروں فونز کی تفصیلات، دو بڑے ڈیٹا بیسز سے",
-                placeholder: "موبائل کا نام لکھیں (مثلاً Samsung Galaxy)...",
-                details: "مکمل تفصیلات",
-                notFound: "معذرت، ہمارے ڈیٹا بیس میں یہ فون نہیں ملا۔",
-                searchExternal: "آن لائن تلاش کریں (PhoneArena)",
-                ram: "ریم",
-                storage: "میموری",
-                battery: "بیٹری",
-                camera: "کیمرہ",
-                display: "ڈسپلے",
-                more: "مزید دیکھیں",
-                extWarn: "اگر ویب سائٹ لوڈ نہ ہو تو یہاں کلک کریں"
-            },
-            en: {
-                title: "Mobile Specs Pro",
-                subtitle: "Explore thousands of phones from dual databases",
-                placeholder: "Search for a phone (e.g. iPhone 14)...",
-                details: "View Specs",
-                notFound: "Sorry, phone not found in local database.",
-                searchExternal: "Search on PhoneArena",
-                ram: "RAM",
-                storage: "Storage",
-                battery: "Battery",
-                camera: "Camera",
-                display: "Display",
-                more: "Load More",
-                extWarn: "If website doesn't load below, click here to open directly"
-            }
-        };
-
-        let allMobiles = []; // Combined Data
-        let filteredMobiles = []; // Search Results
-        let displayCount = 0;
-
-        // --- 2. DATA FETCHING & NORMALIZATION ---
-        
-        async function loadData() {
+        // 1. Load Both Files
+        async function loadDatabases() {
             try {
                 // Fetch both files in parallel
-                const [res1, res2] = await Promise.all([
-                    fetch(config.files[0]),
-                    fetch(config.files[1])
+                const [resp1, resp2] = await Promise.all([
+                    fetch('mobiles.json'),
+                    fetch('convertcsv (2).json')
                 ]);
 
-                const data1 = await res1.json(); // mobiles.json
-                const data2 = await res2.json(); // convertcsv (2).json
+                const data1 = await resp1.json();
+                const data2 = await resp2.json();
 
-                // Normalize Data 1 (mobiles.json is already cleaner)
-                const standardized1 = data1.map(item => ({
-                    source: 'DB1',
-                    brand: item.brand,
-                    model: item.model,
-                    img: item.img_url,
-                    specs: {
-                        'RAM': item.RAM,
-                        'Storage': item.internal_memory,
-                        'Battery': item.battery,
-                        'Display': item.display_size || item.display_resolution,
-                        'Camera': item.primary_camera,
-                        'OS': item.OS,
-                        'Processor': item.CPU
-                    },
-                    fullData: item // Keep original for modal
+                // Process File 1 (Standard JSON)
+                const processedData1 = data1.map(item => ({
+                    ...item,
+                    source: 'db1'
                 }));
 
-                // Normalize Data 2 (convertcsv (2).json has A,B,C keys)
-                // Remove the first item if it contains headers (Brand Name, Model Name)
-                if (data2.length > 0 && data2[0].A === "Brand Name") {
-                    data2.shift();
-                }
+                // Process File 2 (The CSV conversion with A, B, C keys)
+                // We skip the first row if it contains headers like "Brand Name"
+                const processedData2 = data2
+                    .filter(item => item.A !== "Brand Name") 
+                    .map(item => ({
+                        // Mapping weird keys to standard keys based on your file structure
+                        brand: item.A,
+                        model: item.B,
+                        network_technology: item.C,
+                        announced: item.D,
+                        status: item.E,
+                        dimentions: item.F,
+                        weight_g: item.G,
+                        SIM: item.I,
+                        display_type: item.K,
+                        display_size: item.L,
+                        OS: item.P,
+                        internal_memory: item.U,
+                        battery: item.AL,
+                        img_url: item.AR || item.AX, // Priority to AR (Image) else AX (Link)
+                        source: 'db2',
+                        raw: item // Keep raw data for modal
+                    }));
 
-                const standardized2 = data2.map(item => ({
-                    source: 'DB2',
-                    brand: item.A, // A is Brand
-                    model: item.B, // B is Model
-                    img: item.AX || item.AR, // AX/AR usually contains image URL in this dataset
-                    specs: {
-                        'RAM': item.U, // Guessing based on common CSV structures or 'Internal Memory' slot
-                        'Storage': item.U, // Often mixed in csv
-                        'Battery': item.AL, 
-                        'Display': item.L, // Display Size
-                        'Camera': item.V, // Main Camera
-                        'OS': item.P,
-                        'Processor': item.R
-                    },
-                    fullData: item
-                }));
-
-                // Merge and Shuffle slightly to mix brands
-                allMobiles = [...standardized1, ...standardized2];
+                // Merge databases
+                allMobiles = [...processedData1, ...processedData2];
                 
-                // Initial Render
-                filteredMobiles = allMobiles;
-                renderCards(true);
+                renderMobiles(allMobiles.slice(0, 24)); // Show first 24 initially
 
-            } catch (error) {
-                console.error("Error loading files:", error);
-                document.getElementById('results').innerHTML = 
-                    `<div class="fallback-box">
-                        <h3>Error Loading Data</h3>
-                        <p>Please ensure 'mobiles.json' and 'convertcsv (2).json' are in the same folder.</p>
-                    </div>`;
+            } catch (err) {
+                console.error("Error loading files:", err);
+                resultsDiv.innerHTML = '<div class="loader" style="color:red">ڈیٹا بیس فائلز (mobiles.json یا convertcsv.json) نہیں مل رہیں۔</div>';
             }
         }
 
-        // --- 3. RENDERING LOGIC ---
+        // 2. Render Cards
+        function renderMobiles(list) {
+            resultsDiv.innerHTML = '';
+            fallbackSection.style.display = 'none'; // Hide iframe initially
 
-        function renderCards(reset = false) {
-            const container = document.getElementById('results');
-            const loadMoreBtn = document.getElementById('loadMoreContainer');
-            
-            if (reset) {
-                container.innerHTML = '';
-                displayCount = 0;
-            }
-
-            if (filteredMobiles.length === 0) {
-                showNoResults();
-                loadMoreBtn.style.display = 'none';
+            if (list.length === 0) {
+                // Trigger Fallback logic
+                handleNoResults();
                 return;
             }
 
-            const slice = filteredMobiles.slice(displayCount, displayCount + config.itemsPerPage);
-            
-            slice.forEach(phone => {
+            list.forEach(phone => {
+                const img = phone.img_url && phone.img_url.length > 5 ? phone.img_url : 'https://via.placeholder.com/300x400?text=No+Image';
+                const ram = phone.RAM || phone.raw?.T || 'N/A'; // Try to find RAM in both formats
+                const bat = phone.battery || 'N/A';
+                
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.onclick = () => openSpecsModal(phone);
-
-                // Fallback image
-                const imgSrc = (phone.img && phone.img.length > 10) ? phone.img : 'https://via.placeholder.com/300x400?text=No+Image';
-                
-                // Dynamic Tags based on available specs
-                let tagsHtml = '';
-                if(phone.specs.RAM) tagsHtml += `<span class="tag">${phone.specs.RAM}</span>`;
-                if(phone.specs.Battery) tagsHtml += `<span class="tag">${phone.specs.Battery.split(' ').slice(0,2).join(' ')}</span>`;
-
-                const t = i18n[config.currentLang];
-
                 card.innerHTML = `
-                    <div class="card-img-wrapper">
-                        <img src="${imgSrc}" loading="lazy" alt="${phone.brand} ${phone.model}" onerror="this.src='https://via.placeholder.com/300x400?text=Phone'">
+                    <div class="badge">${phone.brand}</div>
+                    <div class="card-img">
+                        <img src="${img}" loading="lazy" alt="${phone.model}" onerror="this.src='https://via.placeholder.com/150?text=Phone'">
                     </div>
-                    <h3>${phone.brand} ${phone.model}</h3>
-                    <div class="tags">${tagsHtml}</div>
-                    <button class="btn-details">
-                        ${t.details} <i class="fas fa-arrow-${config.currentLang === 'ur' ? 'left' : 'right'}"></i>
-                    </button>
+                    <h3>${phone.model}</h3>
+                    <div class="specs-preview">
+                        <div><i class="fas fa-memory"></i> ${ram.split(' ')[0]}</div>
+                        <div><i class="fas fa-battery-full"></i> ${bat.substring(0, 10)}..</div>
+                    </div>
+                    <button class="btn-view" onclick='showDetails(${JSON.stringify(phone).replace(/'/g, "")})'>مکمل تفصیلات</button>
                 `;
-                container.appendChild(card);
+                resultsDiv.appendChild(card);
             });
-
-            displayCount += slice.length;
-
-            // Handle Load More visibility
-            if (displayCount < filteredMobiles.length) {
-                loadMoreBtn.style.display = 'block';
-            } else {
-                loadMoreBtn.style.display = 'none';
-            }
         }
 
-        function loadMore() {
-            renderCards(false);
-        }
-
-        function showNoResults() {
-            const container = document.getElementById('results');
-            const t = i18n[config.currentLang];
-            const query = document.getElementById('searchInput').value;
-            
-            container.innerHTML = `
-                <div class="fallback-box">
-                    <i class="fas fa-search-minus fa-3x" style="color: #cbd5e1; margin-bottom: 20px;"></i>
-                    <h3>${t.notFound}</h3>
-                    <p>${query} ?</p>
-                    <a href="javascript:void(0)" onclick="openExternalSearch('${query}')" class="fallback-btn">
-                        <i class="fas fa-globe"></i> ${t.searchExternal}
-                    </a>
-                </div>
-            `;
-        }
-
-        // --- 4. SEARCH LOGIC ---
-
+        // 3. Search Logic
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
+            
             if (!query) {
-                filteredMobiles = allMobiles;
-            } else {
-                filteredMobiles = allMobiles.filter(item => 
-                    (item.brand && item.brand.toLowerCase().includes(query)) ||
-                    (item.model && item.model.toLowerCase().includes(query))
-                );
+                renderMobiles(allMobiles.slice(0, 24));
+                return;
             }
-            renderCards(true);
+
+            const filtered = allMobiles.filter(m => 
+                (m.brand && m.brand.toLowerCase().includes(query)) ||
+                (m.model && m.model.toLowerCase().includes(query))
+            ).slice(0, 40); // Limit results for performance
+
+            // If no results locally, pass query to fallback function
+            if (filtered.length === 0) {
+                renderMobiles([]); // Clears grid
+                // Delay slightly to update UI
+                handleNoResults(query);
+            } else {
+                renderMobiles(filtered);
+            }
         });
 
-        // --- 5. MODALS & INTERACTION ---
-
-        function openSpecsModal(phone) {
-            const modal = document.getElementById('specsModal');
-            const body = document.getElementById('modalBodyContent');
-            const imgSrc = (phone.img && phone.img.length > 10) ? phone.img : 'https://via.placeholder.com/300x400?text=No+Image';
-
-            // Generate Specs List
-            let specsHtml = '';
+        // 4. Fallback / Iframe Logic
+        function handleNoResults(query = "") {
+            resultsDiv.innerHTML = ''; // Clear existing cards
+            fallbackSection.style.display = 'block'; // Show Iframe container
             
-            // Helper to clean keys
-            const formatKey = (key) => key.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').trim();
-
-            // Merge explicit specs with full raw data for completeness
-            const allData = { ...phone.specs, ...phone.fullData };
+            // Construct PhoneArena Search URL
+            // Note: PhoneArena might block iframes (X-Frame-Options). 
+            // If it blocks, we can try Bing with site:phonearena.com or just a general search.
+            // Using a generic search view that allows embedding usually works better, 
+            // but let's try direct first as requested.
             
-            // Filter out junk keys
-            const junkKeys = ['img_url', 'source', 'fullData', 'specs', 'A', 'B', 'AX', 'AR', 'brand', 'model', 'img'];
+            let searchUrl = "";
+            if(query) {
+                // We use Bing restricted to PhoneArena because PhoneArena's own search often blocks embedding.
+                // This trick makes it look like the site inside the frame.
+                // Or we can try the direct URL: https://www.phonearena.com/search/phones?term=...
+                searchUrl = `https://www.bing.com/search?q=site:phonearena.com+${encodeURIComponent(query)}&igu=1`; 
+            } else {
+                searchUrl = "https://www.phonearena.com/phones";
+            }
+            
+            // Note: If users see a white screen, it means the site blocked the iframe.
+            // But we keep the code as requested.
+            extFrame.src = searchUrl;
+        }
 
-            for (const [key, val] of Object.entries(allData)) {
-                if (val && !junkKeys.includes(key) && val.toString().length < 100) {
-                    specsHtml += `
-                        <div class="spec-item">
-                            <strong>${formatKey(key)}</strong>
-                            <span>${val}</span>
-                        </div>
-                    `;
+        // 5. Modal Details
+        window.showDetails = function(phone) {
+            let detailsHtml = '';
+            
+            // Helper to add row
+            const addRow = (label, val) => {
+                if(val && val !== 'undefined') {
+                    detailsHtml += `<div class="spec-row"><strong>${label}</strong> <span>${val}</span></div>`;
                 }
+            };
+
+            // Logic to handle both file formats
+            if (phone.source === 'db1') {
+                addRow('برانڈ', phone.brand);
+                addRow('ماڈل', phone.model);
+                addRow('ریم (RAM)', phone.RAM);
+                addRow('میموری', phone.internal_memory);
+                addRow('کیمرہ', phone.primary_camera);
+                addRow('بیٹری', phone.battery);
+                addRow('قیمت', phone.approx_price_EUR ? `€${phone.approx_price_EUR}` : 'N/A');
+                addRow('سال', phone.announced);
+            } else {
+                // For convertcsv file (A, B, C...)
+                addRow('برانڈ', phone.brand); // A
+                addRow('ماڈل', phone.model); // B
+                addRow('سال', phone.announced); // D
+                addRow('اسکرین', `${phone.display_size} (${phone.display_resolution || ''})`);
+                addRow('میموری', phone.internal_memory); // U
+                addRow('بیٹری', phone.battery); // AL
+                addRow('وزن', phone.weight_g); // G
+                addRow('ڈائمینشن', phone.dimentions); // F
             }
 
-            body.innerHTML = `
-                <div class="specs-header">
-                    <img src="${imgSrc}" alt="${phone.brand}">
-                    <div>
-                        <h2 style="margin:0; font-size: 2rem; color: var(--text-main);">${phone.brand} ${phone.model}</h2>
-                        <span style="background: #e0f2fe; color: var(--primary); padding: 5px 10px; border-radius: 5px; font-size: 0.9rem; margin-top: 10px; display:inline-block;">
-                            Source: ${phone.source === 'DB1' ? 'Database A' : 'Database B'}
-                        </span>
-                    </div>
+            const img = phone.img_url || 'https://via.placeholder.com/300';
+
+            document.getElementById('modalContent').innerHTML = `
+                <button class="close-modal" onclick="document.getElementById('modalOverlay').style.display='none'"><i class="fas fa-times"></i></button>
+                <div style="text-align:center; border-bottom:1px solid #eee; padding-bottom:20px;">
+                    <img src="${img}" style="height:150px; object-fit:contain; margin-bottom:10px;">
+                    <h2 style="margin:0; color:var(--text-dark)">${phone.brand} ${phone.model}</h2>
                 </div>
-                <div class="specs-body">
-                    <div class="specs-grid">
-                        ${specsHtml}
-                    </div>
+                <div class="spec-grid">
+                    ${detailsHtml}
+                </div>
+                <div style="margin-top:20px; text-align:center; font-size:0.8rem; color:#999;">
+                    ماخذ: ${phone.source === 'db1' ? 'ڈیٹا بیس 1' : 'ڈیٹا بیس 2 (Archive)'}
                 </div>
             `;
+            modalOverlay.style.display = 'flex';
+        };
 
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeSpecsModal() {
-            document.getElementById('specsModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // --- 6. EXTERNAL SEARCH (FALLBACK) ---
-
-        function openExternalSearch(query) {
-            const modal = document.getElementById('externalModal');
-            const iframe = document.getElementById('externalFrame');
-            const directLink = document.getElementById('directExternalLink');
-
-            // PhoneArena Search Logic
-            // PhoneArena uses a specific search URL structure or simply opens the main page
-            const searchUrl = `https://www.phonearena.com/search/term/${encodeURIComponent(query)}`;
-            const fallbackUrl = `https://www.phonearena.com/phones`; // Safer for iframe as search pages often break frames
-
-            iframe.src = fallbackUrl; 
-            directLink.href = searchUrl; // The button opens the actual search
-            
-            modal.style.display = 'flex';
-        }
-
-        function closeExternalModal() {
-            document.getElementById('externalModal').style.display = 'none';
-            document.getElementById('externalFrame').src = ""; // Stop loading
-        }
-
-        // --- 7. LANGUAGE TOGGLE ---
-
-        function toggleLanguage() {
-            config.currentLang = config.currentLang === 'ur' ? 'en' : 'ur';
-            const t = i18n[config.currentLang];
-            const isRTL = config.currentLang === 'ur';
-
-            // HTML Dir
-            document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
-            if(isRTL) document.body.classList.remove('ltr');
-            else document.body.classList.add('ltr');
-
-            // UI Text Updates
-            document.getElementById('siteTitle').innerText = t.title;
-            document.getElementById('siteSubtitle').innerText = t.subtitle;
-            document.getElementById('searchInput').placeholder = t.placeholder;
-            document.getElementById('langText').innerText = isRTL ? 'English' : 'اردو';
-            
-            // Text inside dynamic elements
-            document.querySelectorAll('.txt-more').forEach(el => el.innerText = t.more);
-            document.querySelectorAll('.txt-ext-warn').forEach(el => el.innerText = t.extWarn);
-
-            // Re-render to update card button text and direction
-            renderCards(true);
-        }
+        // Close modal on outside click
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) modalOverlay.style.display = 'none';
+        });
 
         // Initialize
-        loadData();
+        loadDatabases();
 
     </script>
 </body>
