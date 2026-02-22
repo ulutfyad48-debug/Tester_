@@ -275,8 +275,8 @@
         // ===============================================
         // CONFIGURATION
         // ===============================================
-       // اگر ایک سے زیادہ فائلیں ہیں تو اس طرح لکھیں:
-const DATABASE_FILES = ['mobiles.json', 'convertcsv (2).json']; 
+        // اگر ایک سے زیادہ فائلیں ہیں تو اس طرح لکھیں:
+        const DATABASE_FILES = ['mobiles.json', 'convertcsv (2).json']; 
 
         let allDevices = [];
         const grid = document.getElementById('deviceGrid');
@@ -288,26 +288,39 @@ const DATABASE_FILES = ['mobiles.json', 'convertcsv (2).json'];
         // 1. Fetch Data Professionally
         async function loadDatabase() {
             try {
-                const response = await fetch(JSON_FILE_PATH);
-                if (!response.ok) throw new Error("Failed to load data");
+                let rawData = [];
                 
-                const rawData = await response.json();
+                // لوپ کے ذریعے تمام فائلز سے ڈیٹا نکالیں
+                for (let file of DATABASE_FILES) {
+                    try {
+                        const response = await fetch(file);
+                        if (response.ok) {
+                            const data = await response.json();
+                            rawData = rawData.concat(data); // تمام ڈیٹا کو ایک لسٹ میں جمع کریں
+                        }
+                    } catch (err) {
+                        console.warn(`فائل ${file} لوڈ نہیں ہو سکی:`, err);
+                    }
+                }
+
+                if (rawData.length === 0) {
+                    throw new Error("کسی بھی فائل سے ڈیٹا نہیں ملا۔ نام چیک کریں۔");
+                }
                 
                 // DATA MAPPING:
-                // This converts your JSON format to a standard format
-                // Adjust 'item.A', 'item.B' etc based on your actual file keys
+                // آپ کی اپلوڈ کردہ JSON فائل کی اصل keys کے مطابق سیٹ کیا گیا ہے
                 allDevices = rawData.map((item, index) => ({
                     id: index,
-                    brand: item.brand || item.A || 'Unknown',  // Handles standard keys OR CSV keys (A, B...)
-                    model: item.model || item.B || 'Model Name',
+                    brand: item["Brand Name"] || item.brand || item.A || 'Unknown',
+                    model: item["Model Name"] || item.model || item.B || 'Model Name',
                     img: item.img_url || item.image || 'https://via.placeholder.com/300x400?text=No+Image',
                     specs: {
-                        ram: item.RAM || item.U || 'N/A',
-                        battery: item.battery || item.AL || 'N/A',
-                        storage: item.internal_memory || item.V || 'N/A',
-                        display: item.display_size || item.L || 'N/A',
-                        camera: item.primary_camera || 'N/A',
-                        os: item.OS || 'Android/iOS'
+                        ram: item["Internal Memory"] || item.RAM || item.U || 'N/A',
+                        battery: item["Battery"] || item.battery || item.AL || 'N/A',
+                        storage: item["Internal Memory"] || item.internal_memory || item.V || 'N/A',
+                        display: item["Dispaly Size"] || item["Display Size"] || item.display_size || item.L || 'N/A',
+                        camera: item["Main Camera Module"] || item.primary_camera || 'N/A',
+                        os: item["OS"] || item.OS || 'Android/iOS'
                     },
                     fullData: item // Keep original data for modal
                 }));
@@ -317,7 +330,7 @@ const DATABASE_FILES = ['mobiles.json', 'convertcsv (2).json'];
 
             } catch (error) {
                 console.error(error);
-                grid.innerHTML = `<h3 style="text-align:center; color:red">Error loading database. Please check console.</h3>`;
+                grid.innerHTML = `<h3 style="text-align:center; color:red">Error loading database: ${error.message}</h3>`;
             }
         }
 
@@ -337,13 +350,17 @@ const DATABASE_FILES = ['mobiles.json', 'convertcsv (2).json'];
                 card.className = 'card';
                 card.onclick = () => openModal(device);
                 
+                // بیٹری اور ریم کی ویلیوز اگر لمبی ہوں تو ان کو ہینڈل کرنے کا طریقہ تھوڑا بہتر کیا گیا ہے
+                let shortRam = typeof device.specs.ram === 'string' ? device.specs.ram.split(',')[0].substring(0, 15) : 'N/A';
+                let shortBattery = typeof device.specs.battery === 'string' && device.specs.battery !== 'N/A' ? device.specs.battery.substring(0,8) + '..' : 'N/A';
+
                 card.innerHTML = `
                     <div class="brand-badge">${device.brand}</div>
                     <img src="${device.img}" class="card-img" alt="${device.model}" loading="lazy">
                     <h3>${device.model}</h3>
                     <div class="specs-preview">
-                        <div class="spec-item"><i class="fas fa-memory"></i> ${device.specs.ram.split('/')[0]}</div>
-                        <div class="spec-item"><i class="fas fa-battery-half"></i> ${device.specs.battery.substring(0,4)}..</div>
+                        <div class="spec-item"><i class="fas fa-memory"></i> ${shortRam}</div>
+                        <div class="spec-item"><i class="fas fa-battery-half"></i> ${shortBattery}</div>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -364,8 +381,8 @@ const DATABASE_FILES = ['mobiles.json', 'convertcsv (2).json'];
 
             // Fast Filter
             const filtered = allDevices.filter(d => 
-                d.model.toLowerCase().includes(query) || 
-                d.brand.toLowerCase().includes(query)
+                (d.model && d.model.toLowerCase().includes(query)) || 
+                (d.brand && d.brand.toLowerCase().includes(query))
             ).slice(0, 100); // Limit results for performance
 
             renderDevices(filtered);
@@ -386,8 +403,7 @@ const DATABASE_FILES = ['mobiles.json', 'convertcsv (2).json'];
                     
                     <table>
                         <tr><td>Display</td><td>${d.display}</td></tr>
-                        <tr><td>Processor / RAM</td><td>${d.ram}</td></tr>
-                        <tr><td>Storage</td><td>${d.storage}</td></tr>
+                        <tr><td>Processor / RAM / Storage</td><td>${d.ram}</td></tr>
                         <tr><td>Main Camera</td><td>${d.camera}</td></tr>
                         <tr><td>Battery</td><td>${d.battery}</td></tr>
                         <tr><td>OS</td><td>${d.os}</td></tr>
